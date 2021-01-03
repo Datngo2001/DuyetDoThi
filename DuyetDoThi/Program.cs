@@ -1,4 +1,6 @@
-﻿namespace DuyetDoThi
+﻿using System.Collections.Generic;
+
+namespace DuyetDoThi
 {
     class Program
     {
@@ -18,7 +20,6 @@
         public static bool[] chuaxet = new bool[max];
         public static bool[,] ke = new bool[max, max];
         // duyet do thi theo chieu sau su dung de quy
-        public static int z = 0;
         public static void DFSdequy(int v)
         {
             //duyet dinh v
@@ -27,9 +28,28 @@
             {
                 if (ke[u, v] == true && chuaxet[u] == true)
                 {
-                    DFSdequy(u); z++;
+                    DFSdequy(u);
                 }
             }
+        }
+        // duyet do thi theo chieu sau su dung STACK
+        public static void DFSstack(int s)
+        {
+            Stack<int> STACK = new Stack<int>();
+            STACK.Push(s);
+            do
+            {
+                int p = STACK.Pop();
+                // Duyet dinh p;
+                chuaxet[p] = false;
+                for (int u = 0; u < max; u++)
+                {
+                    if(ke[u, p] == true && chuaxet[u] == true)
+                    {
+                        STACK.Push(u);
+                    }
+                }
+            } while (STACK.Count != 0);
         }
         static void Main(string[] args)
         {
@@ -50,13 +70,17 @@
                 chuaxet[i] = true;
             }
             // duyet do thi theo chieu sau su dung de quy (co huong va vo huong deu dc)
-            for (int i = 0; i < max; i++)
-            {
-                if (chuaxet[i])
-                {
-                    DFSdequy(i); 
-                }
-            }
+
+            //for (int i = 0; i < max; i++)
+            //{
+            //    if (chuaxet[i])
+            //    {
+            //        DFSdequy(i); 
+            //    }
+            //}
+
+            // duyet do thi theo chieu sau su dung STACK
+            DFSstack(0);
         }
     }
 }
