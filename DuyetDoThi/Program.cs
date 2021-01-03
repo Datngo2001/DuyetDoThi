@@ -51,6 +51,27 @@ namespace DuyetDoThi
                 }
             } while (STACK.Count != 0);
         }
+        // duyet do thi theo chieu rong su dung QUEUE
+        public static void BFSqueue(int v)
+        {
+            Queue<int> QUEUE = new Queue<int>();
+            QUEUE.Enqueue(v);
+            chuaxet[v] = false;
+            while(QUEUE.Count != 0)
+            {
+                int p = QUEUE.Dequeue();
+                // Duyet dinh p
+                chuaxet[p] = false;
+                for (int u = 0; u < max; u++)
+                {
+                    if (ke[u, p] == true && chuaxet[u] == true)
+                    {
+                        QUEUE.Enqueue(u);
+                        chuaxet[u] = false;
+                    }
+                }
+            }
+        }
         static void Main(string[] args)
         {
             // tao mang ke
@@ -80,7 +101,23 @@ namespace DuyetDoThi
             //}
 
             // duyet do thi theo chieu sau su dung STACK
-            DFSstack(0);
+
+            for (int i = 0; i < max; i++)
+            {
+                if (chuaxet[i])
+                {
+                    DFSstack(i);
+                }
+            }
+
+            // duyet do thi theo chieu rong su dung QUEUE
+            for (int i = 0; i < max; i++)
+            {
+                if (chuaxet[i])
+                {
+                    BFSqueue(i);
+                }
+            }
         }
     }
 }
